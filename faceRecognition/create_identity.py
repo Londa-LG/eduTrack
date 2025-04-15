@@ -1,38 +1,43 @@
 import face_recognition
+import os
 from PIL import Image
 
 
-def main(count, identities):
-    for i in range(count):
-        create_identities(identities[i])
+def new_identity(identities):
+    for iden in identities:
+        create_identities(iden)
 
 def create_identities(identity):
-    # Find faces in image
-    image = face_recognition.load_image_file(identity["image"])
+    print()
+    img_list = os.listdir(identity["dir"])
+    count = len(img_list)
+    for i in range(count):
+        # Make dir for identity
+        if i == 0:
+            os.mkdir(f"./known/{identity['dir']}")
 
-    # Crop out faces 
-    face_locations = face_recognition.face_locations(image)
-    for face in face_locations:
-        top, right, bottom, left = face
-    face_image = image[top:bottom, left:right]
+        # Find faces in image
+        image = face_recognition.load_image_file(f"{identity['dir']}/{img_list[i]}")
 
-    # Display face
-    pil_image = Image.fromarray(face_image)
-    pil_image.show()
-    # Create identity
+        # Crop out faces 
+        face_locations = face_recognition.face_locations(image)
+        for face in face_locations:
+            top, right, bottom, left = face
+        face_image = image[top:bottom, left:right]
+
+        # Create identity
+        pil_image = Image.fromarray(face_image)
+        pil_image.save(f"./known/{identity['dir']}/{img_list[i]}")
 
 identities = [
     {
-        "image":"andrey.jpg",
-        "name": "Veronica"
+        "dir":"keanu",
+        "name": "keanu"
     },
     {
-        "image":"clare.jpg",
-        "name": "Clare"
-    },
-    {
-        "image":"jakob2.jpg",
-        "name": "Ledia" }
+        "dir":"chadwick",
+        "name": "chadwick"
+    }
 ]
 
-main(3,identities)
+new_identity(identities)
