@@ -15,9 +15,13 @@ def identifyFace(unknown,known):
     # Compare the images
     result = face_recognition.compare_faces([knwn_enc],unknwn_enc)
 
-    if result:
+    if result[0] == True:
+        # delete test image
+        # Redirect to dashboard
         print("You are who you say you are")
     else:
+        # delete test image
+        # Redirect to error page
         print("You are not who you said you are")
 
 def checkIdentity(user,image_loc):
@@ -29,4 +33,4 @@ def checkIdentity(user,image_loc):
             known = f"./known/{id}/{known[0]}"
             identifyFace(image_loc, known)
     
-checkIdentity("chadwick","./chadwick/chad3.jpg")
+checkIdentity("keanu","./keanu/keanu2.jpg")
