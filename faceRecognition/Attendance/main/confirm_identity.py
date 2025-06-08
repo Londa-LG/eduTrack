@@ -4,6 +4,8 @@ from PIL import Image
 
 
 def identifyFace(unknown,known):
+    print(known)
+    print(unknown)
     # Load the images
     knwn_img = face_recognition.load_image_file(known)
     unknwn_img = face_recognition.load_image_file(unknown)
@@ -15,22 +17,26 @@ def identifyFace(unknown,known):
     # Compare the images
     result = face_recognition.compare_faces([knwn_enc],unknwn_enc)
 
-    if result[0] == True:
+    print(result[0])
+
+    return result[0]
+
+    #if result[0] == True:
         # delete test image
         # Redirect to dashboard
-        print("You are who you say you are")
-    else:
+        #print("You are who you say you are")
+    #else:
         # delete test image
         # Redirect to error page
-        print("You are not who you said you are")
+        #print("You are not who you said you are")
 
 def checkIdentity(user,image_loc):
-    known = os.listdir("./known")
+    known = os.listdir("./main/known")
 
     for id in known:
         if user == id:
-            known = os.listdir(f"./known/{id}")
-            known = f"./known/{id}/{known[0]}"
-            identifyFace(image_loc, known)
+            known = os.listdir(f"./main/known/{id}")
+            known = f"./main/known/{id}/{known[0]}"
+            iden = identifyFace(image_loc, known)
+            return iden
     
-checkIdentity("londa","./londa/londa1.jpg")

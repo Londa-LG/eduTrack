@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Student | Mark attendance register</title>
+  </head>
+  <body>
+    <h2>Webcam Form</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'mark-attendance' %}">
+        {% csrf_token %}
+        {{ form }}
+
+        <video id="video" width="420" height="440" autoplay></video><br>
+        <button type="button" id="snap">Take Snapshot</button><br><br>
+        
+        <canvas id="canvas" width="420" height="340" ></canvas>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const imageDataInput = document.getElementById('id_imageData');
+        const snapBtn = document.getElementById('snap');
+
+        // Access webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            });
+
+        snapBtn.addEventListener("click", () => {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/png');
+            imageDataInput.value = imageData;
+        });
+    </script>
+</body>  
+</html>
