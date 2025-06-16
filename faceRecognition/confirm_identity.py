@@ -25,6 +25,8 @@ def identifyFace(unknown,known):
         print("You are not who you said you are")
 
 def checkIdentity(user,image_loc):
+    current_dir = os.getcwd() 
+    print(current_dir)
     known = os.listdir("./known")
 
     for id in known:

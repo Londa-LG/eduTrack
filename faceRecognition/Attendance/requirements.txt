@@ -1,2 +1,0 @@
-Django
-face-recognition
